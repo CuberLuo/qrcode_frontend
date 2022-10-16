@@ -1,5 +1,41 @@
 <template>
   <van-config-provider :theme="theme">
+    <van-popup
+      round
+      :style="{ height: '75%' }"
+      v-model:show="show"
+      :close-on-click-overlay="false"
+    >
+      <div class="close_icon_container">
+        <van-icon
+          name="close"
+          color="#c8c9cc"
+          size="2rem"
+          @click="closePopup"
+        />
+      </div>
+      <div class="bot_introduce">
+        <div>
+          本站点推荐社工人肉查询机器人:
+          <a class="sgk" href="http://t.me/TMDSGKBOT?start=SGK_CA3R2UDY"
+            >@TMDSGKBOT</a
+          >
+        </div>
+        <div>
+          点击下方链接免费使用(使用前请确认您的设备上安装了Telegram并配置了中国大陆外的网络代理)
+        </div>
+        <div>
+          免费社工库:
+          <a class="sgk" href="http://t.me/TMDSGKBOT?start=SGK_CA3R2UDY"
+            >http://t.me/TMDSGKBOT?start=SGK_CA3R2UDY</a
+          >
+        </div>
+      </div>
+
+      <div class="TMDSGK_img_container">
+        <img class="TMDSGK_img" src="../../assets/TMDSGK.png" width="300" />
+      </div>
+    </van-popup>
     <van-pull-refresh
       v-model="isLoading"
       success-text="刷新成功"
@@ -144,11 +180,16 @@ import { showNotify } from 'vant'
 import 'vant/es/notify/style'
 import { showFailToast } from 'vant'
 import 'vant/es/toast/style'
-import { showConfirmDialog } from 'vant'
+import { showDialog, showConfirmDialog } from 'vant'
 import 'vant/es/dialog/style'
 import axios from 'axios'
 import router from '@/router'
 import { setItem, getItem } from '@/utils/storage'
+
+const show = ref(true)
+const closePopup = () => {
+  show.value = false
+}
 
 const theme = ref('')
 theme.value = getItem('theme') || 'light'
@@ -300,14 +341,17 @@ const getImageUrl = (name) => {
 }
 
 const showContactDialog = () => {
-  showConfirmDialog({
-    title: 'Tips',
-    confirmButtonText: '是的,我想要联系作者',
-    cancelButtonText: '算了,有点麻烦',
-    message:
-      '联系作者前请确认您的设备上安装了Telegram并配置了中国大陆外的网络代理'
-  }).then(() => {
-    window.location.href = 'https://t.me/popZJUT'
+  // showConfirmDialog({
+  //   title: 'Tips',
+  //   confirmButtonText: '是的,我想要联系作者',
+  //   cancelButtonText: '算了,有点麻烦',
+  //   message:
+  //     '联系作者前请确认您的设备上安装了Telegram并配置了中国大陆外的网络代理'
+  // }).then(() => {
+  //   window.location.href = 'https://t.me/popZJUT'
+  // })
+  showDialog({
+    message: '作者暂时失联'
   })
 }
 // onMounted(() => {
@@ -318,6 +362,25 @@ const showContactDialog = () => {
 </script>
 
 <style scoped>
+.close_icon_container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 20px 0 0;
+}
+
+.sgk {
+  color: #1296db;
+}
+
+.bot_introduce {
+  margin: 20px 20px 20px 20px;
+  color: #f32828;
+}
+.TMDSGK_img_container {
+  display: flex;
+  justify-content: center;
+}
+
 .wrapper,
 .loadingLogo {
   display: flex;

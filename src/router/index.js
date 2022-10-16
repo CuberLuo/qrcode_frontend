@@ -10,6 +10,11 @@ const routes = [
     path: '/download',
     meta: { title: 'download' },
     component: () => import('@/views/download/index.vue')
+  },
+  {
+    path: '/error',
+    meta: { title: 'error' },
+    component: () => import('@/views/error/index.vue')
   }
 ]
 
